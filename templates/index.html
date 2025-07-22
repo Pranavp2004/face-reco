@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-brain"></i>
+                <h2>FaceAI</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <h3><i class="fa-solid fa-video"></i> Camera Controls</h3>
+                <div class="control-group">
+                    <div class="camera-status">
+                        <p id="camera-status-text">Initializing camera...</p>
+                        <div id="camera-details" class="hidden">
+                            <p><strong>Backend:</strong> <span id="camera-backend">Unknown</span></p>
+                            <p><strong>Index:</strong> <span id="camera-index">Unknown</span></p>
+                        </div>
+                    </div>
+                    <button id="refresh-camera" class="secondary-btn">
+                        <i class="fa-solid fa-rotate"></i> Reconnect Camera
+                    </button>
+                    <div id="camera-feedback" class="feedback"></div>
+                </div>
+
+                <h3><i class="fa-solid fa-user-plus"></i> Register New Person</h3>
+                <div class="control-group">
+                    <input type="text" id="name-input" placeholder="Enter name..." maxlength="50">
+                    <button id="register-btn"><i class="fa-solid fa-camera-retro"></i> Start Registration</button>
+                    <p class="feedback" id="register-feedback"></p>
+                </div>
+                
+                <h3><i class="fa-solid fa-arrows-rotate"></i> System Controls</h3>
+                <div class="control-group">
+                    <button id="retrain-btn" class="secondary-btn">
+                        <i class="fa-solid fa-arrows-rotate"></i> Retrain Model
+                    </button>
+                    <p class="feedback" id="retrain-feedback"></p>
+                </div>
+                
+                <h3><i class="fa-solid fa-users"></i> Registered Users</h3>
+                <div id="user-list-container">
+                    <p>Loading users...</p>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div id="status-light" class="status-indicator"></div>
+                <span id="status-text">System Active</span>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Live Recognition Feed</h1>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-users"></i>
+                        <div>
+                            <span class="stat-value" id="user-count">0</span>
+                            <span class="stat-label">Registered Users</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-brain"></i>
+                        <div>
+                            <span class="stat-value" id="model-status">No</span>
+                            <span class="stat-label">Model Trained</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-camera"></i>
+                        <div>
+                            <span class="stat-value" id="camera-status">Offline</span>
+                            <span class="stat-label">Camera Status</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="video-area">
+                <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Live video feed">
+                <div id="capture-overlay" class="overlay hidden">
+                    <div class="overlay-content">
+                        <h2 id="overlay-title">Get Ready!</h2>
+                        <p id="overlay-text">Capturing 5 samples...</p>
+                        <div id="overlay-progress" class="progress-bar">
+                            <div id="progress-bar-inner"></div>
+                        </div>
+                        <button id="cancel-capture" class="secondary-btn">
+                            <i class="fa-solid fa-xmark"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="log-area">
+                <div class="log-header">
+                    <h3><i class="fa-solid fa-terminal"></i> Event Log</h3>
+                    <button id="clear-log" class="small-btn">
+                        <i class="fa-solid fa-trash-can"></i> Clear
+                    </button>
+                </div>
+                <div id="event-log" class="log-box"></div>
+            </div>
+        </main>
+    </div>
+    <canvas id="capture-canvas" style="display:none;"></canvas>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

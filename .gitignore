@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment (if you named it 'venv')
+venv/
+
+# IDE / Editor specific
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Face Recognition Data (IMPORTANT)
+face_data/
+face_database.pkl
+recognizer.yml
+
+# OS specific
+.DS_Store
+Thumbs.db
